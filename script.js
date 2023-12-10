@@ -9,17 +9,12 @@ const updateImageCard = (imgDataArray) => {
   imgDataArray.forEach((imgObject, index) => {
     const imgCard = imageGallery.querySelectorAll(".img-card")[index];
     const imgElement = imgCard.querySelector("img");
-    const downloadBtn = imgCard.querySelector(".download-btn");
     
-    // Set the image source to the AI-generated image data
     const aiGeneratedImage = `data:image/jpeg;base64,${imgObject.b64_json}`;
     imgElement.src = aiGeneratedImage;
     
-    // When the image is loaded, remove the loading class and set download attributes
     imgElement.onload = () => {
       imgCard.classList.remove("loading");
-      downloadBtn.setAttribute("href", aiGeneratedImage);
-      downloadBtn.setAttribute("download", `${new Date().getTime()}.jpg`);
     }
   });
 }
@@ -61,7 +56,6 @@ const handleImageGeneration = (e) => {
   const userPrompt = e.srcElement[0].value;
   const userImgQuantity = parseInt(e.srcElement[1].value);
   
-  // Disable the generate button, update its text, and set the flag
   generateBtn.setAttribute("disabled", true);
   generateBtn.innerText = "Generating";
   isImageGenerating = true;
@@ -70,9 +64,6 @@ const handleImageGeneration = (e) => {
   const imgCardMarkup = Array.from({ length: userImgQuantity }, () => 
       `<div class="img-card loading">
         <img src="images/loader.svg" alt="AI generated image">
-        <a class="download-btn" href="#">
-          <img src="images/download.svg" alt="download icon">
-        </a>
       </div>`
   ).join("");
 
